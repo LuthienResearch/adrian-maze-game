@@ -2,7 +2,127 @@
 
 Last updated: 2026-01-01
 
+**🔥 PHASE 2 PRIORITY: TRAP SYSTEM** (From Adrian's feedback!)
+
+---
+
 ## 🎮 Core Gameplay Features
+
+### 🕳️ TRAP SYSTEM ⭐⭐⭐ (PHASE 2 - TOP PRIORITY!)
+
+> **Adrian's Vision:** "Trampas que nadie hizo, trampas que hacen los jugadores y todo eso"
+
+#### **1. Player-Built Traps / Trampas Construidas por Jugadores**
+- [ ] **Trap Building UI**
+  - [ ] Material table/menu to select materials
+  - [ ] Press material to start building
+  - [ ] Place trap on map interface
+  - [ ] Visual indicator while building
+  - [ ] Cancel build option
+
+- [ ] **Trap Placement System**
+  - [ ] Click/press to place trap at player location
+  - [ ] Check valid placement (not on walls, not on players)
+  - [ ] Show trap preview before placing
+  - [ ] Confirm placement
+
+- [ ] **Trap Activation**
+  - [ ] Detect when player steps on trap
+  - [ ] Trigger trap effect
+  - [ ] Visual/audio feedback
+  - [ ] Trap remains or disappears after trigger?
+
+- [ ] **Trap Types (Player-Built)**
+  - [ ] Lava pit (dig + fill with lava)
+  - [ ] Spike trap
+  - [ ] Ice trap (freeze player)
+  - [ ] Slow trap (reduce speed)
+  - [ ] More ideas from Adrian!
+
+#### **2. Pre-Existing Traps / Trampas Pre-Construidas**
+- [ ] **Generation System**
+  - [ ] Generate traps with maze
+  - [ ] Random placement (not blocking exit path)
+  - [ ] Balance trap density (not too many, not too few)
+  - [ ] Different trap types per zone?
+
+- [ ] **Trap Types (Pre-Existing)**
+  - [ ] Lava floors (hidden? visible?)
+  - [ ] Spike pits
+  - [ ] Falling platforms
+  - [ ] Moving obstacles
+  - [ ] Electric barriers
+
+- [ ] **Visibility**
+  - [ ] Some visible, some hidden?
+  - [ ] Visual warnings (cracks, glow, steam)?
+  - [ ] Discover by getting close?
+
+#### **3. SUPER TRAPS ✨ (NEW! From Gabriel's idea)**
+> "Trampas fuertes y atrapadas que nadie les puede pasar"
+
+- [ ] **Design Super Trap Mechanics**
+  - [ ] What makes them "super"?
+  - [ ] Inescapable? Instant death? High damage?
+  - [ ] Duration of trap effect?
+  - [ ] Can you break free?
+
+- [ ] **Super Trap Types**
+  - [ ] Black hole trap (pulls you in)
+  - [ ] Cage trap (locks you in place)
+  - [ ] Poison gas trap (continuous damage)
+  - [ ] Teleport trap (sends you to random location)
+  - [ ] More ideas from team!
+
+- [ ] **Spawn System**
+  - [ ] Rare spawns (only 1-2 per maze?)
+  - [ ] Special locations (maze center, near exit?)
+  - [ ] Visual indicator (glowing, dangerous-looking)
+
+#### **4. Trap Visibility System** 👁️
+> "Tú puedes ver todas las trampas que hay"
+
+**NEEDS CLARIFICATION FROM ADRIAN:**
+- Option A: See ALL traps always (including hidden ones)?
+- Option B: See only discovered traps?
+- Option C: Special ability/power to reveal traps?
+
+- [ ] **Implementation (depends on Adrian's clarification)**
+  - [ ] Trap overlay/minimap showing all traps?
+  - [ ] Toggle trap visibility with button?
+  - [ ] Highlight traps within range?
+  - [ ] Show trap owner (if player-built)?
+
+#### **5. Material System for Trap Building** 🔨
+> "Tabla de materiales, presiones material y empiezas a construir"
+
+- [ ] **Material Collection**
+  - [ ] Find materials in maze (chests, pickups)
+  - [ ] Dig materials from walls/ground?
+  - [ ] Starting materials?
+  - [ ] Material capacity limit?
+
+- [ ] **Material Types**
+  - [ ] 💧 Water
+  - [ ] 🪵 Wood
+  - [ ] 🔥 Fire/Lava
+  - [ ] 🪨 Stone
+  - [ ] ⚡ Electric/Lightning (new?)
+  - [ ] 🧊 Ice (new?)
+
+- [ ] **Material Inventory UI**
+  - [ ] Show collected materials
+  - [ ] Material counts
+  - [ ] Quick-select materials
+  - [ ] Material combinations
+
+- [ ] **Crafting Recipes for Traps**
+  - [ ] Water + Lava → Rock trap
+  - [ ] Fire + Wood → Spike trap
+  - [ ] Ice + Water → Freeze trap
+  - [ ] More combinations to discover!
+
+---
 
 ### Combat System
 - [ ] **Bow & Arrow weapon**
@@ -49,27 +169,11 @@ Last updated: 2026-01-01
   - [ ] Respawn location (start? checkpoint? random safe spot?)
   - [ ] Game over when all 3 lives lost
 
-### Trap System
-- [ ] **Pre-built traps** (generated with maze)
-  - [ ] Lava floors (hidden? visible?)
-  - [ ] Spike pits
-  - [ ] Falling platforms
-  - [ ] Moving barriers
-  - [ ] Surprise walls
-  - [ ] Trap damage amount (20 HP?)
-
-- [ ] **Player-built traps**
-  - [ ] Dig holes
-  - [ ] Fill holes with lava
-  - [ ] Build lava barriers
-  - [ ] Combo material traps
-  - [ ] Trap placement UI
-
 ### Maze Generation
 - [ ] **Random maze algorithm**
   - [ ] Research algorithms (Depth-First, Prim's, Recursive Backtracking)
   - [ ] Ensure path to exit always exists
-  - [ ] Place pre-built traps randomly
+  - [ ] Place pre-built traps randomly (see Trap System above ⬆️)
   - [ ] Balanced difficulty
   - [ ] Small-medium size (3-5 minute completion)
 
@@ -78,34 +182,64 @@ Last updated: 2026-01-01
   - [ ] Visual indicator (flag? glowing spot?)
   - [ ] Save progress for respawns
 
-### Material & Crafting System
-- [ ] **Base materials** (Water, Wood, Fire/Lava, Stone)
-- [ ] **Material gathering**
-  - [ ] Find in maze (treasure chests?)
-  - [ ] Dig from ground/walls
-  - [ ] Both?
-
-- [ ] **Crafting recipes**
-  - [ ] Water + Lava → Rock/Obsidiana
-  - [ ] Fire + Wood → Coal
-  - [ ] Water + Wood → Damaged Wood
-  - [ ] More combinations to discover
-
-- [ ] **Inventory system**
-  - [ ] Show collected materials
-  - [ ] Crafting UI
-  - [ ] Quick-select for building
-
 ---
 
 ## 🎨 UI/UX Improvements
 
-### Character Selection
-- [ ] **Monster selection screen** (before game starts)
-  - [ ] 6+ monster options (Dinosaur, Robot, Alien, Dragon, Zombie, Ghost)
-  - [ ] Preview of each monster
+### 🦄 Creature/Character Selection (PHASE 3!) ✨
+
+> **From Team Feedback:** Victoria wants unicorn, princess, fairy! Gabriel wants dinosaur!
+> **Adrian's Rule:** "Si las montas es trampa" (If you mount them, it's a trap)
+
+**MOVED TO PHASE 3** (After trap system complete)
+
+#### **New Creature Requests:**
+- [ ] 🦄 **Unicorn** (Victoria's request - for her doll!)
+  - [ ] Can it fly?
+  - [ ] Magic abilities?
+  - [ ] Mounting mechanic?
+
+- [ ] 👸 **Princess** (Victoria's request)
+  - [ ] Special powers?
+  - [ ] Royal abilities?
+  - [ ] Crown animation?
+
+- [ ] 🧚 **Fairy** (Victoria's request)
+  - [ ] Can fly?
+  - [ ] Magic spells?
+  - [ ] Sparkle effects?
+
+- [ ] 🦖 **Dinosaur** (Gabriel's request - already exists!)
+  - [ ] Keep current implementation
+  - [ ] Add roar sound?
+
+- [ ] 🤖 **Robot** (already exists!)
+  - [ ] Keep current implementation
+  - [ ] Add mechanical sounds?
+
+#### **Mounting Mechanic** (NEEDS CLARIFICATION!)
+> "Si las montas es trampa, ¿ok?"
+
+**Questions for Adrian & Victoria:**
+- How does mounting work?
+- Why is it a trap?
+- Does it trap YOU or the OTHER player?
+- Can you ride other players' creatures?
+- What happens when mounted?
+
+- [ ] **Design mounting system**
+  - [ ] How to mount a creature?
+  - [ ] Trap effect when mounted?
+  - [ ] Duration of mount?
+  - [ ] Can you dismount?
+
+#### **Character Selection Screen**
+- [ ] **Monster/Creature selection** (before game starts)
+  - [ ] Show all available creatures
+  - [ ] Preview of each creature
   - [ ] Cosmetic only (all same stats)
   - [ ] Save selection
+  - [ ] Unlock system? (start with basic, earn special ones?)
 
 ### Loadout Selection
 - [ ] **Choose weapon OR superpower** screen
