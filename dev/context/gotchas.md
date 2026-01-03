@@ -273,6 +273,38 @@ this.physics.world.roundPixels = true;
 
 ---
 
+## File Encoding Gotchas
+
+### 20. CSV Files with Non-ASCII Characters (2026-01-03)
+
+**Problem:** Spanish characters like `¿Cuál` display as `¬øCu√°l` (mojibake)
+
+**Why:** UTF-8 bytes interpreted as Latin-1/ISO-8859-1 by viewer (GitHub, Excel, editors)
+
+**Root Cause:** CSV files without BOM (Byte Order Mark) - many tools default to Latin-1 for CSV
+
+**Solution:** Add UTF-8 BOM when creating CSV with non-English text:
+```bash
+# Add BOM to existing file
+printf '\xEF\xBB\xBF' > temp.csv
+cat original.csv >> temp.csv
+mv temp.csv original.csv
+```
+
+**Prevention:**
+- Always add UTF-8 BOM for CSV files with non-ASCII characters
+- Test viewing in GitHub web UI and Excel before committing
+- For bilingual projects like this one, assume all CSV needs BOM
+
+**5 Whys Analysis:**
+1. Why garbled? → UTF-8 read as Latin-1
+2. Why misinterpreted? → No encoding marker
+3. Why no marker? → Write tool doesn't add BOM by default
+4. Why not added manually? → Didn't anticipate cross-tool viewing
+5. Why not anticipated? → Assumed UTF-8 "just works" (it doesn't for CSV!)
+
+---
+
 ## Common Mistakes
 
 ### 13. Forgetting to Commit (2026-01-01)

@@ -46,6 +46,8 @@ Update files in `dev/context/` as we learn:
 
 Include timestamps (YYYY-MM-DD) when adding entries.
 
+**File Encoding:** For CSV files with Spanish/non-ASCII text, add UTF-8 BOM to ensure proper display in GitHub, Excel, and editors. See `dev/context/gotchas.md` for details.
+
 ### Objective Workflow
 
 1. **Start a new objective**
