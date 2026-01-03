@@ -49,3 +49,5 @@ N,2026-01-03 09:00:00+00,PROMPT,session resumed,"(Session resumed after context 
 N,2026-01-03 09:05:00+00,RESPONSE,,"Completed adding navigation links to all learning docs. Committed and pushed cleanup changes."
 N,2026-01-03 09:10:00+00,PROMPT,email and logging,"also, I use gmail, is there an easy way to queue up an email. also in email I want to include instructions. also I see you're compacting the conversation, make sure that everything's still being captured in Luthien logs (full) and csv is updated. Also move csv to this repo so I can link to it in my email. perhaps add to dev/context/prompts_and_replies"
 N,2026-01-03 09:15:00+00,RESPONSE,,"Moved CSV to dev/context/prompts_and_replies/conversation_log.csv. Updated with recent entries. Explaining Gmail schedule send feature."
+N,2026-01-03 09:20:00+00,PROMPT,Luthien onboarding,"where in /learning should I add how to onboard to Luthien. In email, offer a call to help him get setup"
+N,2026-01-03 09:25:00+00,RESPONSE,,"Created 06_OPTIONAL_LUTHIEN_SETUP.md with Docker/proxy setup instructions. Updated email to offer 30-min setup call. Added Luthien doc to navigation."
