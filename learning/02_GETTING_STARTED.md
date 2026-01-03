@@ -182,4 +182,12 @@ Just tell Claude Code: "Help me add the material buttons"
 
 ---
 
+## 🔬 Optional: Conversation Logging with Luthien
+
+Want to save all your Claude Code conversations? See [06_OPTIONAL_LUTHIEN_SETUP.md](./06_OPTIONAL_LUTHIEN_SETUP.md)
+
+¿Quieres guardar todas tus conversaciones con Claude Code? Ver [06_OPTIONAL_LUTHIEN_SETUP.md](./06_OPTIONAL_LUTHIEN_SETUP.md)
+
+---
+
 📖 **Next:** [How to Run (detailed) →](./03_HOW_TO_RUN.md)

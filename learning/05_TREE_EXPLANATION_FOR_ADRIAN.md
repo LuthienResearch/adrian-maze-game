@@ -1,7 +1,7 @@
 # 🌳 El Árbol de GitHub para Adrian / The GitHub Tree for Adrian
 
 📖 **Navigation / Navegación:**
-[← Previous: Project Structure](./04_PROJECT_STRUCTURE.md) | [Back to Email →](./01_EMAIL_FOR_LUIS.md)
+[← Previous: Project Structure](./04_PROJECT_STRUCTURE.md) | [Next: Luthien Setup (Optional) →](./06_OPTIONAL_LUTHIEN_SETUP.md)
 
 ---
 

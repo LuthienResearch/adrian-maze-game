@@ -19,6 +19,7 @@ He creado guías para ayudarte a empezar. Léelas en este orden:
 | 3 | **[How to Run](./03_HOW_TO_RUN.md)** | Detailed instructions / Instrucciones detalladas |
 | 4 | **[Project Structure](./04_PROJECT_STRUCTURE.md)** | Understanding the code / Entender el código |
 | 5 | **[Tree Explanation](./05_TREE_EXPLANATION_FOR_ADRIAN.md)** | For Adrian - what is GitHub? / Para Adrian |
+| 6 | **[Luthien Setup](./06_OPTIONAL_LUTHIEN_SETUP.md)** | (Optional) Conversation logging / Guardar conversaciones |
 
 ---
 
@@ -161,11 +162,21 @@ Adrian puede decir cosas como:
 
 ---
 
-## 📞 Need Help? / ¿Necesitas Ayuda?
+## 📞 Need Help? Let's Schedule a Call! / ¿Necesitas Ayuda? ¡Agendemos una Llamada!
 
-Text me anytime! I'm happy to do a quick video call to help set things up.
+**I'm happy to do a 30-minute video call to help you get set up!** We can:
+- Install Claude Code together
+- Make sure everything works
+- Answer any questions
+- Get Adrian building!
 
-¡Escríbeme cuando quieras! Puedo hacer una videollamada para ayudar.
+**¡Con gusto hago una videollamada de 30 minutos para ayudarte!** Podemos:
+- Instalar Claude Code juntos
+- Asegurar que todo funcione
+- Responder cualquier pregunta
+- ¡Poner a Adrian a construir!
+
+**Just text me to schedule!** / **¡Solo mándame un mensaje para agendar!**
 
 ---
 
