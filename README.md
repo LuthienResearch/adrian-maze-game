@@ -143,64 +143,118 @@ Un juego multijugador de batalla real + crafteo + escape de laberinto donde los 
 
 ---
 
-## 🤔 Design Questions to Answer / Preguntas de Diseño por Responder
+## ✅ Design Decisions Made / Decisiones de Diseño Tomadas
 
 ### Technical Decisions / Decisiones Técnicas
-- [ ] What game engine? / ¿Qué motor de juego? (Unity, Godot, Pygame?)
-- [ ] 2D or 3D? / ¿2D o 3D?
-- [ ] Camera perspective? / ¿Perspectiva de cámara? (Top-down, first-person, third-person?)
-- [ ] How many players per match? / ¿Cuántos jugadores por partida?
-- [ ] Local multiplayer or online? / ¿Multijugador local u online?
+- [x] **Game Engine:** Phaser 3 (JavaScript, runs in browser)
+- [x] **2D or 3D:** 2D side-scrolling platformer
+- [x] **Camera:** Side view (like Super Mario)
+- [x] **Players:** 2 players (local multiplayer, same keyboard)
+- [x] **Controls:** Player 1 = Arrow keys, Player 2 = WASD
 
 ### Gameplay Details / Detalles de Jugabilidad
-- [ ] How many weapon types? / ¿Cuántos tipos de armas?
-- [ ] Inventory system? / ¿Sistema de inventario?
-- [ ] Health/damage system? / ¿Sistema de vida/daño?
-- [ ] Maze generation? / ¿Generación de laberinto? (random or pre-designed / aleatorio o pre-diseñado)
-- [ ] Match length? / ¿Duración de partida?
-- [ ] Respawn mechanics? / ¿Mecánicas de reaparición?
+- [x] **Health:** 50 HP starting health / 50 HP de vida inicial
+- [x] **Lives:** 3 lives per player / 3 vidas por jugador
+- [x] **Match goal:** Race to exit OR eliminate opponent / Llegar a la salida O eliminar al oponente
+- [x] **Characters:** 🦖 Dinosaur vs 🤖 Robot (cosmetic only / solo cosmético)
 
-### Character System / Sistema de Personajes
-- [ ] Do different monsters have different abilities? / ¿Monstruos diferentes tienen habilidades diferentes?
-- [ ] Cosmetic only or gameplay differences? / ¿Solo cosmético o diferencias de jugabilidad?
-- [ ] How many monster types? / ¿Cuántos tipos de monstruos?
+### 🔨 Trap Building System / Sistema de Construcción de Trampas
+
+**Adrian's clarification (2026-01-02):** No pre-existing traps! Players build ALL traps.
+
+**Aclaración de Adrian:** ¡No hay trampas pre-construidas! Los jugadores construyen TODAS las trampas.
+
+#### Materials / Materiales:
+| Emoji | English | Español |
+|-------|---------|---------|
+| 🔥 | Fire | Fuego |
+| 💧 | Water | Agua |
+| 🪵 | Wood | Leña |
+| 🏖️ | Sand | Arena |
+
+#### Controls / Controles:
+| English | Español |
+|---------|---------|
+| Material selector buttons | Botones para elegir material |
+| Dig button - excavate platforms | Botón de excavar - quitar plataformas |
+| Build button - place trap | Botón de construir - poner trampa |
+
+#### Rules / Reglas:
+| Rule | Regla |
+|------|-------|
+| ❌ NO pre-existing traps | ❌ NO hay trampas pre-construidas |
+| ❌ NO super traps | ❌ NO hay super trampas |
+| ✅ Can't fall in your OWN trap | ✅ NO puedes caer en tu PROPIA trampa |
+| ✅ Trap color = Player color | ✅ Color de trampa = Color de jugador |
+| 🦖 = Red traps | 🦖 = Trampas rojas |
+| 🤖 = Blue traps | 🤖 = Trampas azules |
+| ✅ Remember your traps! | ✅ ¡Recuerda dónde están tus trampas! |
+
+### Points System / Sistema de Puntos
+> "La única forma que pierdes puntos es que algo malo te pase"
+
+Two ways to lose points / Dos formas de perder puntos:
+1. Fall in a trap / Caer en una trampa
+2. Get hit by weapons / Que te peguen con armas
+
+---
+
+## ❓ Open Questions / Preguntas Abiertas
+
+### Trap Details / Detalles de Trampas
+- **¿Cuántas trampas puedes construir?** How many traps can each player build? (2? 5? Unlimited?)
+- **¿Cuánto tiempo toma construir?** How long does it take to build a trap?
+- **¿Qué tipos de trampas hay?** What trap types? (Lava? Spikes? Ice?)
+
+### Points & Winning / Puntos y Victoria
+- **¿Cuántos puntos pierdes por trampa?** How many points lost per trap?
+- **¿Qué pasa a 0 puntos?** What happens at 0 points?
+- **¿Qué pasa si los dos llegan a la salida?** What if both reach exit at same time?
+
+### Future Ideas / Ideas Futuras
+- **¿Música en el juego?** Music in the game?
+- **¿Laberinto aleatorio?** Random maze each time?
+- **¿Más de 2 jugadores?** More than 2 players?
+- **🦄 ¿El unicornio puede volar?** Can the unicorn fly? (Victoria's idea)
+- **👸 ¿La princesa tiene poderes?** Does the princess have powers?
 
 ---
 
 ## 🚀 Development Phases / Fases de Desarrollo
 
-### Phase 1: Prototype (Simple Version) / Fase 1: Prototipo (Versión Simple)
-- [ ] Basic maze layout / Diseño básico de laberinto
-- [ ] Player movement / Movimiento del jugador
-- [ ] Simple shooting mechanics / Mecánicas simples de disparo
-- [ ] Exit point / Punto de salida
-- [ ] 2-player local test / Prueba local de 2 jugadores
+### ✅ Phase 1: Prototype — COMPLETE! / Fase 1: Prototipo — ¡COMPLETADO!
+- [x] Basic maze layout / Diseño básico de laberinto
+- [x] Player movement (jump, run) / Movimiento del jugador
+- [x] 2-player local controls / Controles locales de 2 jugadores
+- [x] Exit point with win detection / Punto de salida con detección de victoria
+- [x] Health & lives UI / Interfaz de vida y vidas
+- [x] Character display (🦖 🤖) / Mostrar personajes
 
-### Phase 2: Core Mechanics / Fase 2: Mecánicas Principales
-- [ ] Crafting system / Sistema de crafteo
-- [ ] Material combinations / Combinaciones de materiales
-- [ ] Digging/building / Cavar/construir
-- [ ] Pre-built traps / Trampas pre-construidas
+### 🎯 Phase 2: Traps — IN PROGRESS / Fase 2: Trampas — EN PROGRESO
+- [x] Pre-existing lava traps / Trampas de lava pre-existentes
+- [x] Super Trap (instant loss) / Super Trampa (pérdida instantánea)
+- [x] Damage & knockback system / Sistema de daño y retroceso
 - [ ] Player-built traps / Trampas construidas por jugadores
+- [ ] Trap placement UI / Interfaz para colocar trampas
 
-### Phase 3: Combat & Polish / Fase 3: Combate y Pulido
-- [ ] Weapon variety / Variedad de armas
-- [ ] Health system / Sistema de vida
-- [ ] Combat balancing / Balanceo de combate
-- [ ] Visual effects / Efectos visuales
+### 🦄 Phase 3: Creature Selection (Victoria's Ideas!)
+- [ ] Unicorn 🦄 / Unicornio
+- [ ] Princess 👸 / Princesa
+- [ ] Fairy 🧚 / Hada
+- [ ] Improve Dinosaur & Robot / Mejorar Dinosaurio y Robot
+- [ ] Character select screen / Pantalla de selección
+
+### ⚔️ Phase 4: Combat & Polish / Fase 4: Combate y Pulido
+- [ ] Bow & Arrow weapon / Arma de arco y flecha
+- [ ] Lightsaber weapon / Arma de sable de luz
 - [ ] Sound effects / Efectos de sonido
+- [ ] Music / Música
+- [ ] Better graphics / Mejores gráficos
 
-### Phase 4: Progression / Fase 4: Progresión
-- [ ] Coin/point system / Sistema de monedas/puntos
-- [ ] Upgrades shop / Tienda de mejoras
-- [ ] Character customization / Personalización de personajes
-- [ ] Profile system / Sistema de perfiles
-
-### Phase 5: Multiplayer / Fase 5: Multijugador
-- [ ] Online connectivity / Conectividad online
-- [ ] Matchmaking / Sistema de emparejamiento
-- [ ] Multiple players (4+) / Múltiples jugadores (4+)
-- [ ] Leaderboards / Tablas de clasificación
+### 🚀 Phase 5: Launch! / Fase 5: ¡Lanzamiento!
+- [ ] Deploy to GitHub Pages / Publicar en GitHub Pages
+- [ ] Share with friends / Compartir con amigos
+- [ ] Celebrate! 🎉 / ¡Celebrar!
 
 ---
 
@@ -258,6 +312,25 @@ This project is being developed WHILE testing Scott's Luthien proxy system!
 
 ---
 
-**Next Steps / Próximos Pasos:** Answer design questions and build a simple prototype! / ¡Responder preguntas de diseño y construir un prototipo simple!
+## 🎮 How to Play / Cómo Jugar
+
+```bash
+# Start the game server / Iniciar el servidor
+python3 -m http.server 8080
+
+# Then open / Luego abrir: http://localhost:8080
+```
+
+**Controls / Controles:**
+| Player | Move | Jump |
+|--------|------|------|
+| 🦖 Player 1 | ← → Arrow keys | ↑ Arrow |
+| 🤖 Player 2 | A D keys | W key |
+
+**Goal:** Race to the exit 🚪 or eliminate the other player!
+
+---
+
+**Current Status / Estado Actual:** Phase 2 in progress — adding player-built traps!
 
 🎮 Let's make something amazing! / ¡Hagamos algo increíble! 🎮

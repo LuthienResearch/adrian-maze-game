@@ -1,8 +1,18 @@
 # Repository Guidelines - Adrian's Maze Game
 
+## Language / Idioma
+
+**Always reply in both English and Spanish.** This project is bilingual!
+
+**Siempre responde en inglés y español.** ¡Este proyecto es bilingüe!
+
+---
+
 ## Purpose & Scope
 
 **Core Goal:** Build a 2-player browser-based maze racing game with combat, designed by Adrian (6 years old).
+
+**Objetivo Principal:** Construir un juego de laberinto para 2 jugadores en el navegador con combate, diseñado por Adrian (6 años).
 
 **Target Audience:** Kids ages 6-12, families playing together
 

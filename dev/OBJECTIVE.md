@@ -47,36 +47,60 @@ From feedback session 2026-01-01, the team (Adrian, Gabriel, Zoe, Victoria) deci
 
 ---
 
-## 📋 Clarifying Questions (MUST ANSWER BEFORE STARTING)
+## ✅ Clarifying Questions - ANSWERED! (2026-01-01)
 
-### For Adrian:
+### Adrian's Answers:
 
 #### About Super Traps:
-- [ ] What makes a trap "super strong"? (Instant death? Inescapable? High damage?)
-- [ ] How many super traps per maze? (1? 2? More?)
-- [ ] Where do they appear? (Anywhere? Special locations?)
+- [x] **What makes them "super"?** → ¡No puedes salir! You're stuck forever = YOU LOSE
+- [x] **How many per maze?** → **1** for Level 1 (Adrian's decision after team discussion)
+- [x] **Where do they appear?** → Anywhere (random placement)
 
 #### About Trap Visibility:
-- [ ] Can everyone see ALL traps always (including hidden ones)?
-- [ ] OR do you discover traps as you get close?
-- [ ] OR is it a special ability/button to reveal traps?
+- [x] **Can you see all traps?** → YES! All traps visible always ("puedes ver todas las trampas")
 
 #### About Material System:
-- [ ] Do you NEED materials to build traps?
-- [ ] OR can you build traps anytime without limit?
-- [ ] Which materials make which traps?
+- [x] **Need materials?** → NO LIMIT on materials (unlimited building!)
+- [x] **What materials make what traps?** → Example: Dig hole + fill with lava = lava trap
 
 #### About Building:
-- [ ] How do you choose WHERE to place a trap?
-- [ ] Can you build while running?
-- [ ] OR do you need to stop to build?
+- [x] **How choose where?** → Wherever you want ("donde quieras")
+- [x] **Build while running?** → Must STOP to build (except for very big traps?)
 
-### For Victoria (Phase 3, but good to know):
+### Points System (NEW INFO! 🎮)
+> "La única forma que pierdes puntos es que algo malo te pase"
 
-#### About Mounting Creatures:
-- [ ] How does mounting work? (Press button? Automatic?)
-- [ ] Why is it a trap? (Traps the mounter? The other player?)
-- [ ] Can you dismount? How?
+**Two ways to lose points:**
+1. Fall in a trap
+2. Get hit by weapons
+
+### 🔨 TRAP BUILDING SYSTEM (Updated 2026-01-02)
+
+**Adrian's clarification:** No pre-existing traps! Players build ALL traps.
+
+#### Materials / Materiales:
+- 🔥 Fire / Fuego
+- 💧 Water / Agua
+- 🪵 Wood / Leña
+- 🏖️ Sand / Arena
+
+#### Controls / Controles:
+1. **Material selector buttons** - Choose which material to use
+2. **Dig button** - Press to excavate parts of green platforms
+3. **Build button** - Place trap at location
+
+#### Key Rules:
+- ❌ **NO pre-existing traps** - Players build everything
+- ❌ **NO super traps** - Removed for now
+- ✅ **Can't fall in your OWN trap** - "Sería injusto"
+- ✅ **Trap color = Player color** - P1 (🦖) = Red traps, P2 (🤖) = Blue traps
+- ✅ **Remember your traps** - You have to remember where you placed them
+
+### Victoria's Requests (Phase 3):
+- 🦄 Unicorn
+- 👸 Princess
+- 🧚 Fairy
+- Mounting mechanic ("si las montas es trampa")
 
 ---
 
@@ -204,9 +228,9 @@ From feedback session 2026-01-01, the team (Adrian, Gabriel, Zoe, Victoria) deci
 
 ---
 
-**Status:** Awaiting clarifying questions from Adrian before starting implementation.
+**Status:** ✅ Questions answered! Ready to implement!
 
-**Ready to proceed:** ⏸️ (pending answers)
+**Ready to proceed:** ▶️ GO!
 
 ---
 
