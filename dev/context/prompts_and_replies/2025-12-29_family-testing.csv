@@ -1,4 +1,4 @@
-logged_by_luthien,created_at,prompt_or_response,comments,content
+﻿logged_by_luthien,created_at,prompt_or_response,comments,content
 Y,2025-12-29 21:34:00+00,PROMPT,session start,"Family testing session - Scott, Adrian, Gabriel, Zoe, Victoria"
 Y,2025-12-29 21:35:00+00,PROMPT,Adrian asks,"¿Cuál es la estrella más cercana? (What's the closest star?)"
 Y,2025-12-29 21:35:17+00,RESPONSE,,"Próxima Centauri - 4.24 light years away. Part of Alpha Centauri triple system."

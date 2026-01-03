@@ -1,4 +1,4 @@
-logged_by_luthien,created_at,prompt_or_response,comments,content
+﻿logged_by_luthien,created_at,prompt_or_response,comments,content
 N,2026-01-02 00:10:00+00,PROMPT,session start,"I'd like to get luthien running in this repo - see instructions in /build/cheatsheet.md"
 N,2026-01-02 00:10:30+00,RESPONSE,,"Started Luthien proxy services via quick_start.sh. Gateway healthy. User needs to exit and relaunch Claude Code through the proxy."
 N,2026-01-02 00:15:00+00,PROMPT,resumed via luthien,"cd /Users/scottwofford/build/luthien-proxy && claude --resume 82cc8674-3199-411c-adc7-0f1be75f325d"

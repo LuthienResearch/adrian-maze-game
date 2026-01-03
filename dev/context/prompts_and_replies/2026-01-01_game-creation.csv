@@ -1,4 +1,4 @@
-logged_by_luthien,created_at,prompt_or_response,comments,content
+﻿logged_by_luthien,created_at,prompt_or_response,comments,content
 Y,2026-01-01 20:22:00+00,PROMPT,session start,"Resuming to build Adrian's maze game idea from Dec 29"
 Y,2026-01-01 20:22:45+00,RESPONSE,excited,"Adrian's ideas are INCREDIBLE! 6-year-old who loves chess, science, space - now wants a complex videogame!"
 Y,2026-01-01 20:23:00+00,RESPONSE,setup,"Creating project folder: /Users/scottwofford/build/adrian-maze-game"
