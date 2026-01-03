@@ -1,5 +1,10 @@
 # 🚀 How to Run Adrian's Maze Game / Cómo Correr el Juego de Adrian
 
+📖 **Navigation / Navegación:**
+[← Previous: Getting Started](./02_GETTING_STARTED.md) | [Next: Project Structure →](./04_PROJECT_STRUCTURE.md)
+
+---
+
 ## Quick Start / Inicio Rápido
 
 ### Option 1: Python (Easiest / Más Fácil)

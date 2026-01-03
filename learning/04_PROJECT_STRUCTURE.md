@@ -1,5 +1,10 @@
 # 📁 Project Structure
 
+📖 **Navigation / Navegación:**
+[← Previous: How to Run](./03_HOW_TO_RUN.md) | [Next: Tree Explanation →](./05_TREE_EXPLANATION_FOR_ADRIAN.md)
+
+---
+
 Visual guide to Adrian's Maze Game repository organization.
 
 ---
