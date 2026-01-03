@@ -199,24 +199,38 @@ Two ways to lose points / Dos formas de perder puntos:
 
 ---
 
-## ❓ Open Questions / Preguntas Abiertas
+## ✅ More Answers from Adrian (2026-01-02) / Más Respuestas de Adrian
 
 ### Trap Details / Detalles de Trampas
-- **¿Cuántas trampas puedes construir?** How many traps can each player build? (2? 5? Unlimited?)
-- **¿Cuánto tiempo toma construir?** How long does it take to build a trap?
-- **¿Qué tipos de trampas hay?** What trap types? (Lava? Spikes? Ice?)
+| Question | Answer | Pregunta | Respuesta |
+|----------|--------|----------|-----------|
+| How many traps? | **Unlimited!** | ¿Cuántas trampas? | **¡Ilimitadas!** |
+| Build time? | **Quick for Level 1** | ¿Tiempo de construir? | **Rápido para Nivel 1** |
+| Trap types? | **Any you want!** | ¿Tipos de trampas? | **¡Lo que tú quieras!** |
+
+### How to Build / Cómo Construir
+1. Select material / Selecciona material
+2. Place material / Pon el material
+3. Change material if needed / Cambia material si necesitas
+4. Can dig or fix mistakes / Puedes excavar o corregir errores
 
 ### Points & Winning / Puntos y Victoria
-- **¿Cuántos puntos pierdes por trampa?** How many points lost per trap?
-- **¿Qué pasa a 0 puntos?** What happens at 0 points?
-- **¿Qué pasa si los dos llegan a la salida?** What if both reach exit at same time?
+| Question | Answer | Pregunta | Respuesta |
+|----------|--------|----------|-----------|
+| Points lost per trap? | **1 point** | ¿Puntos por trampa? | **1 punto** |
+| At 0 points? | **You lose!** | ¿A 0 puntos? | **¡Pierdes!** |
+| Both reach exit? | **Tie - start over!** | ¿Los dos llegan? | **¡Empate - otra vez!** |
 
-### Future Ideas / Ideas Futuras
-- **¿Música en el juego?** Music in the game?
+### Phase 3 Preview / Vista Previa Etapa 3
+| Question | Answer | Pregunta | Respuesta |
+|----------|--------|----------|-----------|
+| 🦄 Can unicorn fly? | **Yes!** (but Phase 3) | ¿Unicornio vuela? | **¡Sí!** (pero Etapa 3) |
+| 👸 Princess powers? | **No princesses** | ¿Poderes de princesa? | **No hay princesas** |
+| 🎵 Music? | **Not sure yet** | ¿Música? | **No está seguro** |
+
+### ❓ Still Open / Todavía Abiertas
 - **¿Laberinto aleatorio?** Random maze each time?
 - **¿Más de 2 jugadores?** More than 2 players?
-- **🦄 ¿El unicornio puede volar?** Can the unicorn fly? (Victoria's idea)
-- **👸 ¿La princesa tiene poderes?** Does the princess have powers?
 
 ---
 
