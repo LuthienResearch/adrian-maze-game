@@ -1,11 +1,11 @@
 // El Tigre Contra Los Leones / The Tiger vs The Lions
 // Diseñado por / Designed by: Rafa (4)
 //
-// Diseño v3: Los leones persiguen al tigre. Cuando el tigre toca a un león,
-// el león se vence. Sale otro león nuevo. Gana cuando vence a 12 leones.
+// Diseño v4 (regla clara): el tigre tiene que MOVERSE para atacar.
+// Si está quieto, los leones le hacen daño. 3 corazones. Vence a 12 leones.
 //
-// Design v3: Lions chase the tiger. When the tiger touches a lion, lion is
-// defeated. A new lion spawns. Win when 12 lions defeated.
+// Design v4 (clear rule): tiger MUST be moving to attack. If still,
+// lions damage the tiger. 3 hearts. Defeat 12 lions to win.
 
 const GAME_W = 800;
 const GAME_H = 600;
@@ -14,6 +14,8 @@ const MAX_LIONS = 6;
 const TIGER_SPEED = 280;
 const LION_SPEED = 110;
 const RESPAWN_DELAY_MS = 600;
+const HIT_INVINCIBILITY_MS = 1500;
+const STARTING_HEARTS = 3;
 
 const config = {
     type: Phaser.AUTO,
@@ -31,8 +33,11 @@ const config = {
 let tiger, cursors;
 let lions;
 let lionsDefeated = 0;
-let scoreText, messageText;
+let hearts = STARTING_HEARTS;
+let scoreText, heartsText, messageText, statusText;
 let gameState = 'playing';
+let lastHit = 0;
+let isInvincible = false;
 
 const game = new Phaser.Game(config);
 
@@ -51,23 +56,34 @@ function create() {
     tiger.body.setCollideWorldBounds(true);
 
     lions = this.physics.add.group();
-    for (let i = 0; i < MAX_LIONS; i++) {
-        spawnLionAtEdge.call(this);
-    }
+    for (let i = 0; i < MAX_LIONS; i++) spawnLionAtEdge.call(this);
 
-    this.physics.add.overlap(tiger, lions, defeatLion, null, this);
+    this.physics.add.overlap(tiger, lions, onContact, null, this);
 
     cursors = this.input.keyboard.createCursorKeys();
 
-    scoreText = this.add.text(GAME_W / 2, 16, `🦁 ${lionsDefeated} / ${TOTAL_TO_WIN}`, {
-        fontSize: '28px',
+    scoreText = this.add.text(16, 16, `🦁 ${lionsDefeated} / ${TOTAL_TO_WIN}`, {
+        fontSize: '24px',
         fill: '#fff',
         backgroundColor: 'rgba(0,0,0,0.7)',
-        padding: { x: 14, y: 8 }
-    }).setOrigin(0.5, 0);
+        padding: { x: 12, y: 6 }
+    });
+
+    heartsText = this.add.text(GAME_W - 16, 16, '❤️'.repeat(hearts), {
+        fontSize: '28px',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        padding: { x: 12, y: 4 }
+    }).setOrigin(1, 0);
+
+    statusText = this.add.text(GAME_W / 2, GAME_H - 30, '', {
+        fontSize: '20px',
+        fill: '#fff',
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        padding: { x: 12, y: 6 }
+    }).setOrigin(0.5, 1);
 
     messageText = this.add.text(GAME_W / 2, GAME_H / 2 - 20, '', {
-        fontSize: '36px',
+        fontSize: '32px',
         fill: '#fff',
         backgroundColor: 'rgba(0,0,0,0.85)',
         padding: { x: 24, y: 16 },
@@ -87,7 +103,6 @@ function spawnLionAtEdge() {
     this.physics.add.existing(lion);
     lion.body.setCollideWorldBounds(true);
 
-    // Pop-in animation so Rafa sees where the lion appeared
     lion.setScale(0);
     this.tweens.add({
         targets: lion,
@@ -99,10 +114,16 @@ function spawnLionAtEdge() {
     lions.add(lion);
 }
 
+function isMoving() {
+    return cursors.left.isDown || cursors.right.isDown || cursors.up.isDown || cursors.down.isDown;
+}
+
 function update() {
     if (gameState !== 'playing') {
         if (cursors.up.isDown || cursors.down.isDown || cursors.left.isDown || cursors.right.isDown) {
             lionsDefeated = 0;
+            hearts = STARTING_HEARTS;
+            isInvincible = false;
             gameState = 'playing';
             this.scene.restart();
         }
@@ -118,7 +139,15 @@ function update() {
     if (vx > 0) tiger.setFlipX(false);
     else if (vx < 0) tiger.setFlipX(true);
 
-    // All lions always chase the tiger
+    // Visual cue: tiger pulses when in pounce-ready (moving) state
+    if (isMoving()) {
+        tiger.setScale(1 + Math.sin(this.time.now / 70) * 0.08);
+        statusText.setText('💨 ¡ATACANDO! / POUNCING!').setColor('#86efac');
+    } else {
+        tiger.setScale(1);
+        statusText.setText('⚠️ ¡QUIETO — peligro! / STILL — danger!').setColor('#fca5a5');
+    }
+
     lions.children.iterate(lion => {
         if (!lion) return;
         const dx = tiger.x - lion.x;
@@ -130,16 +159,22 @@ function update() {
     });
 }
 
-function defeatLion(tiger, lion) {
+function onContact(tiger, lion) {
     if (gameState !== 'playing') return;
+    if (isMoving()) {
+        defeatLion.call(this, lion);
+    } else {
+        damageTiger.call(this, lion);
+    }
+}
 
+function defeatLion(lion) {
     const x = lion.x;
     const y = lion.y;
     lion.destroy();
     lionsDefeated++;
     scoreText.setText(`🦁 ${lionsDefeated} / ${TOTAL_TO_WIN}`);
 
-    // Big satisfying boom
     const boom = this.add.text(x, y, '💥', { fontSize: '72px' }).setOrigin(0.5);
     this.tweens.add({
         targets: boom,
@@ -149,7 +184,6 @@ function defeatLion(tiger, lion) {
         onComplete: () => boom.destroy()
     });
 
-    // Stars flying up
     for (let i = 0; i < 4; i++) {
         const star = this.add.text(x, y, '⭐', { fontSize: '32px' }).setOrigin(0.5);
         const angle = (Math.PI * 2 * i) / 4 + Math.random() * 0.5;
@@ -164,7 +198,6 @@ function defeatLion(tiger, lion) {
         });
     }
 
-    // Camera shake for impact
     this.cameras.main.shake(120, 0.008);
 
     if (lionsDefeated >= TOTAL_TO_WIN) {
@@ -176,10 +209,50 @@ function defeatLion(tiger, lion) {
     }
 }
 
+function damageTiger(lion) {
+    if (isInvincible) return;
+    if (this.time.now - lastHit < HIT_INVINCIBILITY_MS) return;
+    lastHit = this.time.now;
+    isInvincible = true;
+
+    hearts--;
+    heartsText.setText('❤️'.repeat(Math.max(0, hearts)) + '🖤'.repeat(STARTING_HEARTS - hearts));
+
+    const dx = tiger.x - lion.x;
+    const dy = tiger.y - lion.y;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    tiger.body.setVelocity((dx / dist) * 450, (dy / dist) * 450);
+
+    const heartBreak = this.add.text(tiger.x, tiger.y - 40, '💔', { fontSize: '48px' }).setOrigin(0.5);
+    this.tweens.add({
+        targets: heartBreak,
+        y: heartBreak.y - 60,
+        alpha: { from: 1, to: 0 },
+        duration: 800,
+        onComplete: () => heartBreak.destroy()
+    });
+
+    this.cameras.main.shake(200, 0.015);
+    this.cameras.main.flash(150, 255, 0, 0);
+
+    this.tweens.add({
+        targets: tiger,
+        alpha: { from: 0.3, to: 1 },
+        duration: 200,
+        repeat: 6,
+        onComplete: () => {
+            tiger.setAlpha(1);
+            isInvincible = false;
+        }
+    });
+
+    if (hearts <= 0) loseGame.call(this);
+}
+
 function winGame() {
     gameState = 'won';
+    statusText.setText('');
 
-    // Clear remaining lions with celebration
     lions.children.iterate(lion => {
         if (!lion) return;
         const lx = lion.x, ly = lion.y;
@@ -194,7 +267,6 @@ function winGame() {
         });
     });
 
-    // Confetti
     for (let i = 0; i < 25; i++) {
         const emoji = ['⭐', '🎉', '🏆', '✨', '💛'][Math.floor(Math.random() * 5)];
         const c = this.add.text(
@@ -213,4 +285,10 @@ function winGame() {
     }
 
     messageText.setText(`¡GANÓ EL TIGRE! 🐅🏆\nThe tiger won!\n\nPresiona una flecha para jugar otra vez\nPress an arrow to play again`);
+}
+
+function loseGame() {
+    gameState = 'lost';
+    statusText.setText('');
+    messageText.setText(`Los leones ganaron 🦁\nThe lions won!\n\n¡Recuerda: muévete para atacar!\nRemember: move to attack!\n\nPresiona una flecha\nPress an arrow`);
 }
