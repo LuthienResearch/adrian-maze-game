@@ -3,13 +3,17 @@
 //
 // Visión de Rafa: el tigre lucha contra los leones.
 // Rafa's vision: the tiger fights against the lions.
+//
+// Reglas simples para Rafa (4):
+// El tigre se mueve con las flechas. Cuando toca a un león, el león se vence.
+// Simple rules for Rafa (4):
+// Tiger moves with arrow keys. When it touches a lion, the lion is defeated.
 
 const GAME_W = 800;
 const GAME_H = 600;
 const TOTAL_LIONS = 6;
-const ATTACK_RADIUS = 90;
-const ATTACK_COOLDOWN_MS = 450;
-const HIT_COOLDOWN_MS = 800;
+const TIGER_SPEED = 260;
+const LION_SPEED = 110;
 
 const config = {
     type: Phaser.AUTO,
@@ -24,14 +28,11 @@ const config = {
     scene: { preload, create, update }
 };
 
-let tiger, cursors, spaceKey;
+let tiger, cursors;
 let lions;
-let tigerHealth = 100;
 let lionsDefeated = 0;
-let healthText, scoreText, messageText;
+let scoreText, messageText;
 let gameState = 'playing';
-let attackCooldown = 0;
-let lastHit = 0;
 
 const game = new Phaser.Game(config);
 
@@ -45,7 +46,7 @@ function create() {
         tuft.setAlpha(0.6);
     }
 
-    tiger = this.add.text(GAME_W / 2, GAME_H / 2, '🐅', { fontSize: '48px' }).setOrigin(0.5);
+    tiger = this.add.text(GAME_W / 2, GAME_H / 2, '🐅', { fontSize: '52px' }).setOrigin(0.5);
     this.physics.add.existing(tiger);
     tiger.body.setCollideWorldBounds(true);
 
@@ -56,29 +57,22 @@ function create() {
     ];
     spawnPoints.forEach(([x, y]) => spawnLion.call(this, x, y));
 
-    this.physics.add.overlap(tiger, lions, hitLion, null, this);
+    this.physics.add.overlap(tiger, lions, defeatLion, null, this);
 
     cursors = this.input.keyboard.createCursorKeys();
-    spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-    healthText = this.add.text(16, 16, '🐅 Vida: 100', {
-        fontSize: '20px',
+    scoreText = this.add.text(16, 16, `🦁 Vencidos: 0 / ${TOTAL_LIONS}`, {
+        fontSize: '22px',
         fill: '#fff',
         backgroundColor: 'rgba(0,0,0,0.7)',
-        padding: { x: 10, y: 6 }
-    });
-    scoreText = this.add.text(16, 50, `🦁 0/${TOTAL_LIONS}`, {
-        fontSize: '20px',
-        fill: '#fff',
-        backgroundColor: 'rgba(0,0,0,0.7)',
-        padding: { x: 10, y: 6 }
+        padding: { x: 12, y: 8 }
     });
 
     messageText = this.add.text(GAME_W / 2, GAME_H / 2 - 20, '', {
-        fontSize: '28px',
+        fontSize: '32px',
         fill: '#fff',
         backgroundColor: 'rgba(0,0,0,0.85)',
-        padding: { x: 20, y: 14 },
+        padding: { x: 24, y: 16 },
         align: 'center'
     }).setOrigin(0.5);
 }
@@ -87,13 +81,13 @@ function spawnLion(x, y) {
     const lion = this.add.text(x, y, '🦁', { fontSize: '40px' }).setOrigin(0.5);
     this.physics.add.existing(lion);
     lion.body.setCollideWorldBounds(true);
+    lion.body.setBounce(1, 1);
     lions.add(lion);
 }
 
-function update(time, delta) {
+function update() {
     if (gameState !== 'playing') {
-        if (Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(spaceKey)) {
-            tigerHealth = 100;
+        if (cursors.up.isDown || cursors.down.isDown || cursors.left.isDown || cursors.right.isDown) {
             lionsDefeated = 0;
             gameState = 'playing';
             this.scene.restart();
@@ -102,93 +96,61 @@ function update(time, delta) {
     }
 
     let vx = 0, vy = 0;
-    if (cursors.left.isDown) vx = -240;
-    else if (cursors.right.isDown) vx = 240;
-    if (cursors.up.isDown) vy = -240;
-    else if (cursors.down.isDown) vy = 240;
+    if (cursors.left.isDown) vx = -TIGER_SPEED;
+    else if (cursors.right.isDown) vx = TIGER_SPEED;
+    if (cursors.up.isDown) vy = -TIGER_SPEED;
+    else if (cursors.down.isDown) vy = TIGER_SPEED;
     tiger.body.setVelocity(vx, vy);
 
-    if (attackCooldown > 0) attackCooldown -= delta;
-    if (Phaser.Input.Keyboard.JustDown(spaceKey) && attackCooldown <= 0) {
-        doAttack.call(this);
-        attackCooldown = ATTACK_COOLDOWN_MS;
-    }
-
+    // Lions wander slowly, occasionally changing direction
     lions.children.iterate(lion => {
         if (!lion) return;
-        const dx = tiger.x - lion.x;
-        const dy = tiger.y - lion.y;
+        // Lions try to flee from tiger if close, otherwise wander
+        const dx = lion.x - tiger.x;
+        const dy = lion.y - tiger.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist > 1) {
-            const speed = 90;
-            lion.body.setVelocity((dx / dist) * speed, (dy / dist) * speed);
+        if (dist < 200 && dist > 0) {
+            lion.body.setVelocity((dx / dist) * LION_SPEED, (dy / dist) * LION_SPEED);
+        } else if (Math.abs(lion.body.velocity.x) < 10 && Math.abs(lion.body.velocity.y) < 10) {
+            lion.body.setVelocity(
+                (Math.random() - 0.5) * LION_SPEED * 1.5,
+                (Math.random() - 0.5) * LION_SPEED * 1.5
+            );
         }
+    });
+}
+
+function defeatLion(tiger, lion) {
+    if (gameState !== 'playing') return;
+
+    const x = lion.x;
+    const y = lion.y;
+    lion.destroy();
+    lionsDefeated++;
+    scoreText.setText(`🦁 Vencidos: ${lionsDefeated} / ${TOTAL_LIONS}`);
+
+    const boom = this.add.text(x, y, '💥', { fontSize: '64px' }).setOrigin(0.5);
+    this.tweens.add({
+        targets: boom,
+        scale: { from: 0.5, to: 2 },
+        alpha: { from: 1, to: 0 },
+        duration: 500,
+        onComplete: () => boom.destroy()
+    });
+
+    const star = this.add.text(x, y, '⭐', { fontSize: '40px' }).setOrigin(0.5);
+    this.tweens.add({
+        targets: star,
+        y: y - 80,
+        alpha: { from: 1, to: 0 },
+        duration: 700,
+        onComplete: () => star.destroy()
     });
 
     if (lionsDefeated >= TOTAL_LIONS) winGame.call(this);
 }
 
-function doAttack() {
-    const claw = this.add.text(tiger.x, tiger.y, '💥', { fontSize: '72px' }).setOrigin(0.5);
-    this.tweens.add({
-        targets: claw,
-        scale: { from: 0.5, to: 1.4 },
-        alpha: { from: 1, to: 0 },
-        duration: 250,
-        onComplete: () => claw.destroy()
-    });
-
-    lions.children.iterate(lion => {
-        if (!lion) return;
-        const dx = lion.x - tiger.x;
-        const dy = lion.y - tiger.y;
-        if (Math.sqrt(dx * dx + dy * dy) < ATTACK_RADIUS) {
-            const poof = this.add.text(lion.x, lion.y, '⭐', { fontSize: '40px' }).setOrigin(0.5);
-            this.tweens.add({
-                targets: poof,
-                scale: { from: 1, to: 2 },
-                alpha: { from: 1, to: 0 },
-                duration: 400,
-                onComplete: () => poof.destroy()
-            });
-            lion.destroy();
-            lionsDefeated++;
-            scoreText.setText(`🦁 ${lionsDefeated}/${TOTAL_LIONS}`);
-        }
-    });
-}
-
-function hitLion(tiger, lion) {
-    if (gameState !== 'playing') return;
-    const now = this.time.now;
-    if (now - lastHit < HIT_COOLDOWN_MS) return;
-    lastHit = now;
-
-    tigerHealth -= 15;
-    healthText.setText(`🐅 Vida: ${Math.max(0, tigerHealth)}`);
-
-    const dx = tiger.x - lion.x;
-    const dy = tiger.y - lion.y;
-    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    tiger.body.setVelocity((dx / dist) * 350, (dy / dist) * 350);
-
-    this.tweens.add({
-        targets: tiger,
-        alpha: { from: 0.3, to: 1 },
-        duration: 300
-    });
-
-    if (tigerHealth <= 0) loseGame.call(this);
-}
-
 function winGame() {
-    if (gameState !== 'playing') return;
     gameState = 'won';
-    messageText.setText(`¡GANÓ EL TIGRE! 🐅🏆\nThe tiger won!\n\nPresiona ↑ o ESPACIO\nPress ↑ or SPACE`);
-}
-
-function loseGame() {
-    if (gameState !== 'playing') return;
-    gameState = 'lost';
-    messageText.setText(`Los leones ganaron 🦁\nThe lions won!\n\nPresiona ↑ o ESPACIO\nPress ↑ or SPACE`);
+    messageText.setText(`¡GANÓ EL TIGRE! 🐅🏆\nThe tiger won!\n\nPresiona una flecha para jugar otra vez\nPress an arrow to play again`);
 }
