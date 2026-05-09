@@ -1,19 +1,19 @@
 // El Tigre Contra Los Leones / The Tiger vs The Lions
 // Diseñado por / Designed by: Rafa (4)
 //
-// Visión de Rafa: el tigre lucha contra los leones.
-// Rafa's vision: the tiger fights against the lions.
+// Diseño v3: Los leones persiguen al tigre. Cuando el tigre toca a un león,
+// el león se vence. Sale otro león nuevo. Gana cuando vence a 12 leones.
 //
-// Reglas simples para Rafa (4):
-// El tigre se mueve con las flechas. Cuando toca a un león, el león se vence.
-// Simple rules for Rafa (4):
-// Tiger moves with arrow keys. When it touches a lion, the lion is defeated.
+// Design v3: Lions chase the tiger. When the tiger touches a lion, lion is
+// defeated. A new lion spawns. Win when 12 lions defeated.
 
 const GAME_W = 800;
 const GAME_H = 600;
-const TOTAL_LIONS = 6;
-const TIGER_SPEED = 260;
+const TOTAL_TO_WIN = 12;
+const MAX_LIONS = 6;
+const TIGER_SPEED = 280;
 const LION_SPEED = 110;
+const RESPAWN_DELAY_MS = 600;
 
 const config = {
     type: Phaser.AUTO,
@@ -43,7 +43,7 @@ function create() {
         const x = Math.random() * GAME_W;
         const y = Math.random() * GAME_H;
         const tuft = this.add.text(x, y, '🌾', { fontSize: '20px' }).setOrigin(0.5);
-        tuft.setAlpha(0.6);
+        tuft.setAlpha(0.5);
     }
 
     tiger = this.add.text(GAME_W / 2, GAME_H / 2, '🐅', { fontSize: '52px' }).setOrigin(0.5);
@@ -51,37 +51,51 @@ function create() {
     tiger.body.setCollideWorldBounds(true);
 
     lions = this.physics.add.group();
-    const spawnPoints = [
-        [80, 80], [GAME_W - 80, 80], [80, GAME_H - 80], [GAME_W - 80, GAME_H - 80],
-        [GAME_W / 2, 60], [GAME_W / 2, GAME_H - 60]
-    ];
-    spawnPoints.forEach(([x, y]) => spawnLion.call(this, x, y));
+    for (let i = 0; i < MAX_LIONS; i++) {
+        spawnLionAtEdge.call(this);
+    }
 
     this.physics.add.overlap(tiger, lions, defeatLion, null, this);
 
     cursors = this.input.keyboard.createCursorKeys();
 
-    scoreText = this.add.text(16, 16, `🦁 Vencidos: 0 / ${TOTAL_LIONS}`, {
-        fontSize: '22px',
+    scoreText = this.add.text(GAME_W / 2, 16, `🦁 ${lionsDefeated} / ${TOTAL_TO_WIN}`, {
+        fontSize: '28px',
         fill: '#fff',
         backgroundColor: 'rgba(0,0,0,0.7)',
-        padding: { x: 12, y: 8 }
-    });
+        padding: { x: 14, y: 8 }
+    }).setOrigin(0.5, 0);
 
     messageText = this.add.text(GAME_W / 2, GAME_H / 2 - 20, '', {
-        fontSize: '32px',
+        fontSize: '36px',
         fill: '#fff',
         backgroundColor: 'rgba(0,0,0,0.85)',
         padding: { x: 24, y: 16 },
         align: 'center'
-    }).setOrigin(0.5);
+    }).setOrigin(0.5).setDepth(10);
 }
 
-function spawnLion(x, y) {
+function spawnLionAtEdge() {
+    const edge = Math.floor(Math.random() * 4);
+    let x, y;
+    if (edge === 0) { x = Math.random() * GAME_W; y = 30; }
+    else if (edge === 1) { x = Math.random() * GAME_W; y = GAME_H - 30; }
+    else if (edge === 2) { x = 30; y = Math.random() * GAME_H; }
+    else { x = GAME_W - 30; y = Math.random() * GAME_H; }
+
     const lion = this.add.text(x, y, '🦁', { fontSize: '40px' }).setOrigin(0.5);
     this.physics.add.existing(lion);
     lion.body.setCollideWorldBounds(true);
-    lion.body.setBounce(1, 1);
+
+    // Pop-in animation so Rafa sees where the lion appeared
+    lion.setScale(0);
+    this.tweens.add({
+        targets: lion,
+        scale: 1,
+        duration: 250,
+        ease: 'Back.easeOut'
+    });
+
     lions.add(lion);
 }
 
@@ -101,21 +115,17 @@ function update() {
     if (cursors.up.isDown) vy = -TIGER_SPEED;
     else if (cursors.down.isDown) vy = TIGER_SPEED;
     tiger.body.setVelocity(vx, vy);
+    if (vx > 0) tiger.setFlipX(false);
+    else if (vx < 0) tiger.setFlipX(true);
 
-    // Lions wander slowly, occasionally changing direction
+    // All lions always chase the tiger
     lions.children.iterate(lion => {
         if (!lion) return;
-        // Lions try to flee from tiger if close, otherwise wander
-        const dx = lion.x - tiger.x;
-        const dy = lion.y - tiger.y;
+        const dx = tiger.x - lion.x;
+        const dy = tiger.y - lion.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 200 && dist > 0) {
+        if (dist > 1) {
             lion.body.setVelocity((dx / dist) * LION_SPEED, (dy / dist) * LION_SPEED);
-        } else if (Math.abs(lion.body.velocity.x) < 10 && Math.abs(lion.body.velocity.y) < 10) {
-            lion.body.setVelocity(
-                (Math.random() - 0.5) * LION_SPEED * 1.5,
-                (Math.random() - 0.5) * LION_SPEED * 1.5
-            );
         }
     });
 }
@@ -127,30 +137,80 @@ function defeatLion(tiger, lion) {
     const y = lion.y;
     lion.destroy();
     lionsDefeated++;
-    scoreText.setText(`🦁 Vencidos: ${lionsDefeated} / ${TOTAL_LIONS}`);
+    scoreText.setText(`🦁 ${lionsDefeated} / ${TOTAL_TO_WIN}`);
 
-    const boom = this.add.text(x, y, '💥', { fontSize: '64px' }).setOrigin(0.5);
+    // Big satisfying boom
+    const boom = this.add.text(x, y, '💥', { fontSize: '72px' }).setOrigin(0.5);
     this.tweens.add({
         targets: boom,
-        scale: { from: 0.5, to: 2 },
+        scale: { from: 0.4, to: 2.2 },
         alpha: { from: 1, to: 0 },
-        duration: 500,
+        duration: 450,
         onComplete: () => boom.destroy()
     });
 
-    const star = this.add.text(x, y, '⭐', { fontSize: '40px' }).setOrigin(0.5);
-    this.tweens.add({
-        targets: star,
-        y: y - 80,
-        alpha: { from: 1, to: 0 },
-        duration: 700,
-        onComplete: () => star.destroy()
-    });
+    // Stars flying up
+    for (let i = 0; i < 4; i++) {
+        const star = this.add.text(x, y, '⭐', { fontSize: '32px' }).setOrigin(0.5);
+        const angle = (Math.PI * 2 * i) / 4 + Math.random() * 0.5;
+        this.tweens.add({
+            targets: star,
+            x: x + Math.cos(angle) * 80,
+            y: y + Math.sin(angle) * 80 - 40,
+            alpha: { from: 1, to: 0 },
+            scale: { from: 1, to: 0.3 },
+            duration: 600,
+            onComplete: () => star.destroy()
+        });
+    }
 
-    if (lionsDefeated >= TOTAL_LIONS) winGame.call(this);
+    // Camera shake for impact
+    this.cameras.main.shake(120, 0.008);
+
+    if (lionsDefeated >= TOTAL_TO_WIN) {
+        winGame.call(this);
+    } else {
+        this.time.delayedCall(RESPAWN_DELAY_MS, () => {
+            if (gameState === 'playing') spawnLionAtEdge.call(this);
+        });
+    }
 }
 
 function winGame() {
     gameState = 'won';
+
+    // Clear remaining lions with celebration
+    lions.children.iterate(lion => {
+        if (!lion) return;
+        const lx = lion.x, ly = lion.y;
+        lion.destroy();
+        const poof = this.add.text(lx, ly, '✨', { fontSize: '40px' }).setOrigin(0.5);
+        this.tweens.add({
+            targets: poof,
+            scale: { from: 0.5, to: 2 },
+            alpha: { from: 1, to: 0 },
+            duration: 600,
+            onComplete: () => poof.destroy()
+        });
+    });
+
+    // Confetti
+    for (let i = 0; i < 25; i++) {
+        const emoji = ['⭐', '🎉', '🏆', '✨', '💛'][Math.floor(Math.random() * 5)];
+        const c = this.add.text(
+            Math.random() * GAME_W,
+            -30 - Math.random() * 100,
+            emoji,
+            { fontSize: '32px' }
+        ).setOrigin(0.5).setDepth(5);
+        this.tweens.add({
+            targets: c,
+            y: GAME_H + 30,
+            angle: Math.random() * 360,
+            duration: 2000 + Math.random() * 1500,
+            ease: 'Quad.easeIn'
+        });
+    }
+
     messageText.setText(`¡GANÓ EL TIGRE! 🐅🏆\nThe tiger won!\n\nPresiona una flecha para jugar otra vez\nPress an arrow to play again`);
 }
